@@ -9,5 +9,8 @@ router.get('/all', userInfoController.getAllUsers);
 // GET A RANDOM USER
 router.get('/random', userInfoController.getRandomUser);
 
+// ADD NEW USER
+// router.get('/random', userInfoController.getRandomUser);
+
 
 module.exports = router;

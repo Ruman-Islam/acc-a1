@@ -16,7 +16,7 @@ app.use(express.json());
 
 
 // APPLICATION ROUTES //
-app.get("/", (req, res) => res.status(200).send("WELCOME TO USER INFO WORLD!"));
+app.get("/", (req, res) => res.status(200).send("WELCOME TO USER THE INFO WORLD!"));
 app.use('/api/v1/user', userInfoRoute);
 // ...................//
 
