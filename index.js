@@ -10,6 +10,7 @@ const userInfoRoute = require('./routes/v1/userInfo.route');
 
 // APPLICATION MIDDLEWARE //
 app.use(express.json());
+app.use(express.static("public"));
 // ...................... //
 
 
