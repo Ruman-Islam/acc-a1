@@ -2,7 +2,6 @@ const express = require("express");
 const errorHandler = require("./middlewares/errorHandler");
 require("dotenv").config();
 const app = express();
-const fs = require('fs');
 const port = process.env.PORT || 5000;
 
 // ROUTES IMPORT //

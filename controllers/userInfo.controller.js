@@ -7,7 +7,8 @@ module.exports.getAllUsers = (req, res, next) => {
         const data = JSON.parse(users);
         res.status(200).json({ "data": data });
     } catch (err) {
-        next('Failed to Read Data !!');
+        console.log(err);
+        next(err);
     }
 };
 
