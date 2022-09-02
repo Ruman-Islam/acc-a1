@@ -3,9 +3,12 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getAllUsers = (req, res, next) => {
     try {
-        const users = fs.readFileSync("userData.json");
-        const data = JSON.parse(users);
-        res.status(200).json({ "data": data });
+        // const users = fs.readFileSync("userData.json");
+        // const data = JSON.parse(users);
+        // res.status(200).json({ "data": data });
+        res.json({
+            "message": "hello test"
+        })
     } catch (err) {
         next('Failed to Read Data !!');
     }

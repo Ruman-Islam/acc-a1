@@ -1,10 +1,10 @@
 const express = require("express");
-const errorHandler = require("./middlewares/errorHandler");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
 // ROUTES IMPORT //
+const errorHandler = require("./middlewares/errorHandler");
 const userInfoRoute = require('./routes/v1/userInfo.route');
 // ............... //
 
