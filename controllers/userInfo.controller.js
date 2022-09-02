@@ -4,8 +4,8 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getAllUsers = (req, res, next) => {
     try {
-        // const file = path.join(process.cwd(), './users.json');
-        const users = fs.readFileSync("./users.json");
+        const file = path.join(process.cwd(), './users.json');
+        const users = fs.readFileSync(file, "utf-8");
         const data = JSON.parse(users);
         res.status(200).json(data);
     } catch (err) {
