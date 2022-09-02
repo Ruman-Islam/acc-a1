@@ -4,12 +4,16 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getAllUsers = (req, res, next) => {
     try {
-        const file = path.join(process.cwd(), './users.json');
-        const users = fs.readFileSync(file, "utf-8");
+        // const file = path.join(process.cwd(), './users.json');
+        const users = fs.readFileSync("./users.json");
         const data = JSON.parse(users);
-        res.status(200).send(data);
+        res.status(200).json(data);
     } catch (err) {
-        next('Failed to Read Data !!');
+        next({
+            status: 404,
+            success: false,
+            message: "No users found"
+        });
     }
 };
 
