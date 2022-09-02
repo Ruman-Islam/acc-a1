@@ -1,24 +1,30 @@
 const express = require("express");
+const errorHandler = require("./middlewares/errorHandler");
 require("dotenv").config();
 const app = express();
+const fs = require('fs');
 const port = process.env.PORT || 5000;
 
+// ROUTES IMPORT //
+const userInfoRoute = require('./routes/v1/userInfo.route');
+// ............... //
 
+// APPLICATION MIDDLEWARE //
 app.use(express.json());
+// ...................... //
 
 
 
+// APPLICATION ROUTES //
+app.use('/api/v1/user', userInfoRoute);
+// ...................//
 
 
-
-app.get("/", (req, res) => {
-    res.json({
-        "message": "Hello World!"
-    })
-});
+// DEFAULT ERROR HANDLERS //
+app.use(errorHandler);
 
 app.all("*", (req, res) => {
-    res.send("NO route found.");
+    res.send("NO ROUTE FOUND.");
 });
 
 app.listen(port, () => {
@@ -31,3 +37,6 @@ process.on("unhandledRejection", (error) => {
         process.exit(1);
     });
 });
+
+
+// https://acc-a1.vercel.app/
