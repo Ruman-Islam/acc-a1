@@ -1,9 +1,11 @@
 const fs = require('fs');
+const path = require('path');
 const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getAllUsers = (req, res, next) => {
     try {
-        const users = fs.readFileSync("./users.json", "utf-8");
+        const file = path.join(process.cwd(), './users.json');
+        const users = fs.readFileSync(file, "utf-8");
         const data = JSON.parse(users);
         res.status(200).send(data);
     } catch (err) {
@@ -22,14 +24,3 @@ module.exports.getRandomUser = (req, res, next) => {
         next('Failed to Read Data !!');
     }
 };
-
-// app.get("/user/all", (req, res) => {
-//     const users = fs.readFileSync("./users.json", "utf-8");
-//     const user = JSON.parse(users);
-//     const limit = req.query.limit;
-//     if (limit) {
-//         res.send(user.slice(0, limit));
-//     } else {
-//         res.send(user);
-//     }
-// }),
