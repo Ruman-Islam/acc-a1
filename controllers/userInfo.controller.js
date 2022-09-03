@@ -6,8 +6,8 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getRandomUser = (req, res, next) => {
     try {
-        const file = path.join(process.cwd(), './users.json');
-        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        // const file = path.join(process.cwd(), './users.json');
+        const data = JSON.parse(fs.readFileSync('./users.json', "utf-8"));
         const i = getRandomIndex(data.length);
         console.log(i);
         res.status(200).json({ "data": data[i] });
@@ -24,8 +24,8 @@ module.exports.getRandomUser = (req, res, next) => {
 module.exports.getAllUsers = (req, res, next) => {
     try {
         const { limit } = req.query;
-        const file = path.join(process.cwd(), './users.json');
-        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        // const file = path.join(process.cwd(), './users.json');
+        const data = JSON.parse(fs.readFileSync('./users.json', "utf-8"));
         const users = limit > 0 ? data.slice(0, limit) : data;
         res.status(200).json({ "data": users });
     } catch (err) {
@@ -44,6 +44,24 @@ module.exports.addNewUser = (req, res, next) => {
         const data = JSON.parse(fs.readFileSync(file, "utf-8"));
         data.push(req.body);
         fs.writeFileSync("./users.json", JSON.stringify(data), "utf-8");
+        res.status(200).json({ "Success": true });
+    } catch (err) {
+        next({
+            "status": 500,
+            "success": false,
+            "message": "Cannot read the file",
+            "error": "Internal Server Error"
+        });
+    }
+};
+
+module.exports.updateUser = (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const file = path.join(process.cwd(), './users.json');
+        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        const index = data.findIndex(user => (user.id).toString() === id);
+        console.log(index)
         res.status(200).json({ "Success": true });
     } catch (err) {
         next({
