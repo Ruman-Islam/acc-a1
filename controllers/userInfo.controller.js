@@ -22,7 +22,8 @@ module.exports.getRandomUser = (req, res, next) => {
 module.exports.getAllUsers = (req, res, next) => {
     try {
         const { limit } = req.query;
-        const data = JSON.parse(fs.readFileSync('./users.json', "utf-8"));
+        const file = path.join(process.cwd(), './users.json')
+        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
         const users = limit > 0 ? data.slice(0, limit) : data;
         res.status(200).json({ "data": users });
     } catch (err) {
