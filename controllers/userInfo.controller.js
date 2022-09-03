@@ -6,7 +6,7 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getRandomUser = async (req, res, next) => {
     try {
-        const file = path.join(process.cwd(), './users.json');
+        const file = path.join(process.cwd(), './public/users.json');
         const data = await JSON.parse(fs.readFileSync(file, "utf-8"));
         const index = getRandomIndex(data.length);
         res.status(200).json({ "data": data[index] });
@@ -23,7 +23,7 @@ module.exports.getRandomUser = async (req, res, next) => {
 module.exports.getAllUsers = async (req, res, next) => {
     try {
         const { limit } = req.query;
-        const file = path.join(process.cwd(), './users.json');
+        const file = path.join(process.cwd(), './public/users.json');
         const data = await JSON.parse(fs.readFileSync(file, "utf-8"));
         const users = await limit > 0 ? data.slice(0, limit) : data;
         await res.status(200).json({ "data": users });
@@ -58,7 +58,7 @@ module.exports.updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
         const updatedData = req.body;
-        const file = path.join(process.cwd(), './users.json');
+        const file = path.join(process.cwd(), './public/users.json');
         const data = await JSON.parse(fs.readFileSync(file, "utf-8"));
         const newArray = await data.map(user => {
             if ((user.id).toString() === id) {
