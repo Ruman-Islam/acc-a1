@@ -45,12 +45,7 @@ module.exports.addNewUser = (req, res, next) => {
         fs.writeFileSync(file, JSON.stringify(data), "utf-8");
         res.status(200).json({ "Success": true });
     } catch (err) {
-        next({
-            "status": 500,
-            "success": false,
-            "message": "Cannot read the file",
-            "error": "Internal Server Error"
-        });
+        next(err);
     }
 };
 
