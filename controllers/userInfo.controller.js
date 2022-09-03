@@ -35,17 +35,14 @@ module.exports.getAllUsers = (req, res, next) => {
     }
 };
 
-// module.exports.addNewUser = (req, res, next) => {
-//     try {
-//         const file = path.join(process.cwd(), './users.json');
-//         const users = fs.readFileSync(file, "utf-8");
-//         const data = JSON.parse(users);
-//         res.status(200).json({ "data": data });
-//     } catch (err) {
-//         next({
-//             status: 500,
-//             success: false,
-//             message: "Internal Server Error"
-//         });
-//     }
-// };
+module.exports.addNewUser = (req, res, next) => {
+    try {
+        res.status(200).json({ "data": "hello" })
+    } catch (err) {
+        next({
+            status: 500,
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
+};
