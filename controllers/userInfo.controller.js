@@ -7,7 +7,7 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 module.exports.getRandomUser = (req, res, next) => {
     try {
         const file = path.join(process.cwd(), './users.json');
-        const users = fs.readFileSync(file, "utf-8");
+        const users = fs.readFile(file, "utf-8");
         const data = JSON.parse(users);
         const i = getRandomIndex(data.length);
         res.status(200).json({ "data": data[i] });
@@ -21,8 +21,8 @@ module.exports.getRandomUser = (req, res, next) => {
 };
 
 module.exports.getAllUsers = (req, res, next) => {
-    const { limit } = req.query;
     try {
+        const { limit } = req.query;
         const file = path.join(process.cwd(), './users.json');
         const data = JSON.parse(fs.readFileSync(file, "utf-8"));
         const users = limit > 0 ? data.slice(0, limit) : data;
@@ -38,7 +38,11 @@ module.exports.getAllUsers = (req, res, next) => {
 
 module.exports.addNewUser = (req, res, next) => {
     try {
-        res.status(200).json({ "data": "hello" })
+        const file = path.join(process.cwd(), './users.json');
+        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        data.push(req.body);
+        fs.writeFileSync("./users.json", JSON.stringify(data), "utf-8");
+        res.status(200).json({ "Success": true });
     } catch (err) {
         next({
             status: 500,
