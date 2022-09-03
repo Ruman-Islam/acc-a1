@@ -21,11 +21,12 @@ module.exports.getRandomUser = (req, res, next) => {
 };
 
 module.exports.getAllUsers = (req, res, next) => {
+    const { limit } = req.query;
     try {
         const file = path.join(process.cwd(), './users.json');
-        const users = fs.readFileSync(file, "utf-8");
-        const data = JSON.parse(users);
-        res.status(200).json({ "data": data });
+        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        const users = limit > 0 ? data.slice(0, limit) : data;
+        res.status(200).json({ "data": users });
     } catch (err) {
         next({
             status: 500,
