@@ -4,17 +4,17 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 
 
-module.exports.getRandomUser = (req, res, next) => {
+module.exports.getRandomUser = async (req, res, next) => {
     try {
         const file = path.join(process.cwd(), './users.json');
-        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
+        const data = await JSON.parse(fs.readFileSync(file, "utf-8"));
         const index = getRandomIndex(data.length);
         res.status(200).json({ "data": data[index] });
     } catch (err) {
         next({
             "status": 500,
             "success": false,
-            "message": "Cannot read the file",
+            "message": err,
             "error": "Internal Server Error"
         });
     }
@@ -31,21 +31,26 @@ module.exports.getAllUsers = (req, res, next) => {
         next({
             "status": 500,
             "success": false,
-            "message": "Cannot read the file",
+            "message": err,
             "error": "Internal Server Error"
         });
     }
 };
 
-module.exports.addNewUser = (req, res, next) => {
+module.exports.addNewUser = async (req, res, next) => {
     try {
         const file = path.join(process.cwd(), './users.json');
-        const data = JSON.parse(fs.readFileSync(file, "utf-8"));
-        data.push(req.body);
+        const data = await JSON.parse(fs.readFileSync(file, "utf-8"));
+        await data.push(req.body);
         fs.writeFileSync(file, JSON.stringify(data), "utf-8");
         res.status(200).json({ "Success": true });
     } catch (err) {
-        next(err);
+        next({
+            "status": 500,
+            "success": false,
+            "message": err,
+            "error": "Internal Server Error"
+        });
     }
 };
 
@@ -68,7 +73,7 @@ module.exports.updateUser = (req, res, next) => {
         next({
             "status": 500,
             "success": false,
-            "message": "Cannot read the file",
+            "message": err,
             "error": "Internal Server Error"
         });
     }
