@@ -7,8 +7,8 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 module.exports.getRandomUser = async (req, res, next) => {
     try {
+        //// const dirname = `${__dirname}../../public/users.json`;
         const file = path.join(process.cwd(), './public/users.json');
-        // const dirname = `${__dirname}../../public/users.json`;
         const data = await JSON.parse(fs.readFileSync(file));
         const index = getRandomIndex(data.length);
         res.status(200).json({ "data": data[index] });
@@ -24,9 +24,9 @@ module.exports.getRandomUser = async (req, res, next) => {
 
 module.exports.getAllUsers = async (req, res, next) => {
     try {
+        //// const dirname = `${__dirname}../../public/users.json`;
         const { limit } = req.query;
         const file = path.join(process.cwd(), './public/users.json');
-        // const dirname = `${__dirname}../../public/users.json`;
         const data = await JSON.parse(fs.readFileSync(file));
         const users = await limit > 0 ? data.slice(0, limit) : data;
         await res.status(200).json({ "data": users });
@@ -42,8 +42,8 @@ module.exports.getAllUsers = async (req, res, next) => {
 
 module.exports.addNewUser = async (req, res, next) => {
     try {
+        //// const dirname = `${__dirname}../../public/users.json`;
         const file = path.join(process.cwd(), './public/users.json');
-        // const dirname = `${__dirname}../../public/users.json`;
         const data = await JSON.parse(fs.readFileSync(file));
         data.push(req.body);
         fs.writeFileSync(file, JSON.stringify(data));
@@ -60,15 +60,15 @@ module.exports.addNewUser = async (req, res, next) => {
 
 module.exports.updateUser = async (req, res, next) => {
     try {
+        //// const dirname = `${__dirname}../../public/users.json`;
         const { id } = req.params;
         const updatedData = req.body;
         const file = path.join(process.cwd(), './public/users.json');
-        // const dirname = `${__dirname}../../public/users.json`;
         const data = await JSON.parse(fs.readFileSync(file));
         const objIndex = data.findIndex(o => o.id === Number(id));
         const existingUser = data[objIndex];  //@ Finding desired user
 
-        // Dynamically update user property
+        // Dynamically update user's dynamic property
         if (updatedData.id) { existingUser.id = updatedData.id };
         if (updatedData.name) { existingUser.name = updatedData.name };
         if (updatedData.gender) { existingUser.gender = updatedData.gender };
@@ -92,10 +92,20 @@ module.exports.updateUser = async (req, res, next) => {
 };
 
 module.exports.bulkUpdate = async (req, res, next) => {
-    const ids = req.body;
-    console.log(ids);
     try {
+        //// const dirname = `${__dirname}../../public/users.json`;
+        const users = req.body;
+        const file = path.join(process.cwd(), './public/users.json');
+        const data = await JSON.parse(fs.readFileSync(file));
 
+        // Dynamically updating users dynamic property
+        const updatedUsers = data.map((user) => {
+            const updatedUser = users.find((u) => u.id === user.id);
+            return updatedUser ? { ...user, ...updatedUser } : user;
+        });
+
+        fs.writeFileSync(file, JSON.stringify(updatedUsers));
+        res.status(200).json({ "Success": true });
     } catch (err) {
         next({
             "status": 500,
@@ -105,9 +115,3 @@ module.exports.bulkUpdate = async (req, res, next) => {
         });
     }
 };
-
-// [
-//     {"id": 1, "contact": "01536160661"},
-//       {"id": 2, "contact": "01653598874"},
-//         {"id": 3, "contact": "01613712217"}
-//  ]
