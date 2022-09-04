@@ -6,10 +6,10 @@ const getRandomIndex = require('../utilities/randomIndexGen');
 
 
 module.exports.getRandomUser = async (req, res, next) => {
-    console.log(__dirname);
     try {
         // const file = path.join(process.cwd(), './public/users.json');
-        const data = await JSON.parse(fs.readFileSync(`${__dirname}../../public/users.json`, "utf-8"));
+        const dirname = `${__dirname}../../public/users.json`;
+        const data = await JSON.parse(fs.readFileSync(dirname));
         const index = getRandomIndex(data.length);
         res.status(200).json({ "data": data[index] });
     } catch (err) {
@@ -26,7 +26,8 @@ module.exports.getAllUsers = async (req, res, next) => {
     try {
         const { limit } = req.query;
         // const file = path.join(process.cwd(), './public/users.json');
-        const data = await JSON.parse(fs.readFileSync(`${__dirname}../../public/users.json`, "utf-8"));
+        const dirname = `${__dirname}../../public/users.json`;
+        const data = await JSON.parse(fs.readFileSync(dirname));
         const users = await limit > 0 ? data.slice(0, limit) : data;
         await res.status(200).json({ "data": users });
     } catch (err) {
@@ -42,9 +43,10 @@ module.exports.getAllUsers = async (req, res, next) => {
 module.exports.addNewUser = async (req, res, next) => {
     try {
         // const file = path.join(process.cwd(), './public/users.json');
-        const data = await JSON.parse(fs.readFileSync(`${__dirname}../../public/users.json`));
+        const dirname = `${__dirname}../../public/users.json`;
+        const data = await JSON.parse(fs.readFileSync(dirname));
         data.push(req.body);
-        fs.writeFileSync(`${__dirname}../../public/users.json`, JSON.stringify(data));
+        fs.writeFileSync(dirname, JSON.stringify(data));
         res.status(200).json({ "Success": true });
     } catch (err) {
         next({
@@ -61,7 +63,8 @@ module.exports.updateUser = async (req, res, next) => {
         const { id } = req.params;
         const updatedData = req.body;
         // const file = path.join(process.cwd(), './public/users.json');
-        const data = await JSON.parse(fs.readFileSync(`${__dirname}../../public/users.json`, "utf-8"));
+        const dirname = `${__dirname}../../public/users.json`;
+        const data = await JSON.parse(fs.readFileSync(dirname));
         const newArray = await data.map(user => {
             if ((user.id).toString() === id) {
                 return { ...updatedData };
@@ -69,7 +72,7 @@ module.exports.updateUser = async (req, res, next) => {
                 return user;
             }
         })
-        fs.writeFileSync((`${__dirname}../../public/users.json`, "utf-8"), JSON.stringify(newArray), "utf-8");
+        fs.writeFileSync(dirname, JSON.stringify(newArray));
         res.status(200).json({ "Success": true });
     } catch (err) {
         next({
