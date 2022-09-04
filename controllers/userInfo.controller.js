@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 
 
-
 // GET A RANDOM USER
 module.exports.getRandomUser = async (req, res, next) => {
     try {

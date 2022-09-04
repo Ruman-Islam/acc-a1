@@ -1,6 +1,7 @@
 const express = require('express');
 const userInfoController = require('../../controllers/userInfo.controller');
 const router = express.Router();
+const validator = require('../../middlewares/validator');
 
 
 // GET A RANDOM USER
@@ -10,7 +11,7 @@ router.get("/random", userInfoController.getRandomUser);
 router.get("/all", userInfoController.getAllUsers);
 
 // ADD NEW USER
-router.post("/save", userInfoController.addNewUser);
+router.post("/save", validator, userInfoController.addNewUser);
 
 // UPDATE A USER
 router.patch("/update/:id", userInfoController.updateUser);
