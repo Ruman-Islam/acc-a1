@@ -40,4 +40,4 @@ process.on("unhandledRejection", (error) => {
 });
 
 
-// https://acc-a1.vercel.app/
+// https://thawing-dusk-18929.herokuapp.com/

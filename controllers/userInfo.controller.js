@@ -65,14 +65,21 @@ module.exports.updateUser = async (req, res, next) => {
         const file = path.join(process.cwd(), './public/users.json');
         // const dirname = `${__dirname}../../public/users.json`;
         const data = await JSON.parse(fs.readFileSync(file));
-        const newArray = await data.map(user => {
-            if ((user.id).toString() === id) {
-                return { ...updatedData };
-            } else {
-                return user;
-            }
-        })
-        fs.writeFileSync(file, JSON.stringify(newArray));
+        const objIndex = data.findIndex(o => o.id === Number(id));
+        const existingUser = data[objIndex];  //@ Finding desired user
+
+        // Dynamically update user property
+        if (updatedData.id) { existingUser.id = updatedData.id };
+        if (updatedData.name) { existingUser.name = updatedData.name };
+        if (updatedData.gender) { existingUser.gender = updatedData.gender };
+        if (updatedData.contact) { existingUser.contact = updatedData.contact; };
+        if (updatedData.address) { existingUser.address = updatedData.address; };
+        if (updatedData.photoUrl) { existingUser.photoUrl = updatedData.photoUrl };
+
+        // Update the array with updated user
+        const users = await data.map(user => (user.id).toString() === id ? { ...existingUser } : user);
+        fs.writeFileSync(file, JSON.stringify(users));
+
         res.status(200).json({ "Success": true });
     } catch (err) {
         next({
