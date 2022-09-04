@@ -70,7 +70,7 @@ module.exports.updateUser = async (req, res, next) => {
         const data = await JSON.parse(fs.readFileSync(dirname));
 
         // Dynamically update user's dynamic property
-        const users = await data.map(user => user.id === Number(id) ? { ...user, ...updatedData } : user);
+        const users = await data.map(user => user.id === id ? { ...user, ...updatedData } : user);
         fs.writeFileSync(dirname, JSON.stringify(users));
 
         res.status(200).json({ "Success": true });
