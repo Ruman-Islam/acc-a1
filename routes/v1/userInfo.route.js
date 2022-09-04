@@ -18,5 +18,8 @@ router.patch("/update/:id", userInfoController.updateUser);
 // BULK UPDATE
 router.patch("/bulk-update", userInfoController.bulkUpdate);
 
+// DELETE A USER
+router.delete("/delete/:id", userInfoController.deleteUser);
+
 
 module.exports = router;
