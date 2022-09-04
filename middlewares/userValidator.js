@@ -57,25 +57,14 @@ module.exports.bulkUpdate = (req, res, next) => {
     const data = JSON.parse(fs.readFileSync(dirname));
     for (const user of updatedUsers) {
         const id = Number(user.id);
-        const updatedUser = data.find((u) => u.id === user.id);
 
-        if (!id || id === 0 || !updatedUser) {
+        if (!id || id === 0 || !(data.find((u) => u.id === user.id))) {
             res.status(404).json({
-                "message": `User not found`
+                "message": `User id ${id} is not found`
             });
             break;
         } else {
             next();
         }
     }
-    // updatedUsers.forEach(user => {
-    //     if (Number(user.id)) {
-    // res.status(404).json({
-    //     "message": `User not found`
-    // });
-    //     } else {
-    //         console.log('false');
-    //     }
-    // })
-    // console.log(updatedUsers);
 };
