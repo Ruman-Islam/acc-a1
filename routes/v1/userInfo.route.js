@@ -15,5 +15,8 @@ router.post("/save", userInfoController.addNewUser);
 // UPDATE A USER
 router.patch("/update/:id", userInfoController.updateUser);
 
+// BULK UPDATE
+router.patch("/bulk-update", userInfoController.bulkUpdate);
+
 
 module.exports = router;
