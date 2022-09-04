@@ -25,9 +25,9 @@ module.exports.getRandomUser = async (req, res, next) => {
 module.exports.getAllUsers = async (req, res, next) => {
     try {
         const { limit } = req.query;
-        // const file = path.join(process.cwd(), './public/users.json');
+        const file = path.join(process.cwd(), './public/users.json');
         const dirname = `${__dirname}../../public/users.json`;
-        const data = await JSON.parse(fs.readFileSync(dirname));
+        const data = await JSON.parse(fs.readFileSync(file));
         const users = await limit > 0 ? data.slice(0, limit) : data;
         await res.status(200).json({ "data": users });
     } catch (err) {
